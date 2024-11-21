@@ -1,0 +1,4 @@
+# https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
+name: frpc client Add-on
+url: 'https://github.com/mophite/frpc'
+maintainer: 1743299@qq.com

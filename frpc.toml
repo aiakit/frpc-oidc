@@ -1,0 +1,15 @@
+serverAddr = "47.106.129.170"
+serverPort = 7000
+
+auth.method = "oidc"
+auth.oidc.clientID = ""
+auth.oidc.clientSecret = ""
+auth.oidc.audience = "https://xxx.homingai.com"
+auth.oidc.scope = "rw"
+auth.oidc.tokenEndpointURL = "https://api.homingai.com/oauth/oidc/token"
+
+[[proxies]]
+name = "clientID"
+type = "http"
+localPort = 8123
+customDomains = ["xxx.homingai.com"]

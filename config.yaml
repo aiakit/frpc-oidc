@@ -1,0 +1,53 @@
+name: "FRP Client"
+version: "1.0.0"
+slug: "frpc"
+description: "FRP Client add-on for Home Assistant"
+url: "https://github.com/yourusername/hassio-frpc"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: services
+boot: auto
+
+options:
+  server_addr: "47.106.129.170"
+  server_port: 7000
+  auth:
+    method: "oidc"
+    oidc:
+      client_id: ""
+      client_secret: ""
+      audience: "https://ha.homingai.com"
+      scope: "rw"
+      token_endpoint_url: "https://api.homingai.com/oauth/oidc/token"
+  proxies:
+    - name: ""
+      type: "http"
+      local_port: 8123
+      custom_domains: []
+
+schema:
+  server_addr: str
+  server_port: port
+  auth:
+    method: str
+    oidc:
+      client_id: str
+      client_secret: str
+      audience: str
+      scope: str
+      token_endpoint_url: str
+  proxies:
+    - name: str
+      type: str
+      local_port: port
+      custom_domains:
+        - str
+
+init: false
+ports:
+  7000/tcp: 7000
+  8123/tcp: 8123
