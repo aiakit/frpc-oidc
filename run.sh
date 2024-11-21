@@ -1,12 +1,20 @@
-#!/usr/bin/with-contenv bashio
+#!/usr/bin/env bashio
 set -e
 
 # 定义配置文件路径
 CONFIG_PATH=/data/frpc.toml
+LOG_FILE="/share/frpc.log"
 APP_PATH="/usr/src"
+WAIT_PIDS=()
+
+function stop_frpc() {
+    bashio::log.info "Stop frpc oidc "
+    kill -15 "${WAIT_PIDS[@]}"
+}
 
 # 显示欢迎信息
-bashio::log.info "Starting FRP Client..."
+ALL_CONFIG=$(bashio::config --all)
+bashio::log.info "Starting FRP Client...${ALL_CONFIG}"
 
 # 检查 frpc 是否存在
 if [ ! -f "${APP_PATH}/frpc" ]; then
@@ -18,17 +26,19 @@ fi
 chmod +x "${APP_PATH}/frpc"
 
 # 从 Home Assistant 配置中获取值
-SERVER_ADDR=$(bashio::config 'server_addr')
-SERVER_PORT=$(bashio::config 'server_port')
-CLIENT_ID=$(bashio::config 'auth.oidc.client_id')
-CLIENT_SECRET=$(bashio::config 'auth.oidc.client_secret')
+SERVER_ADDR=$(bashio::config 'serverAddr')
+SERVER_PORT=$(bashio::config 'serverPort')
+AUTH_METHOD=$(bashio::config 'auth.method')
+CLIENT_ID=$(bashio::config 'auth.oidc.clientID')
+CLIENT_SECRET=$(bashio::config 'auth.oidc.clientSecret')
 AUDIENCE=$(bashio::config 'auth.oidc.audience')
 SCOPE=$(bashio::config 'auth.oidc.scope')
-TOKEN_URL=$(bashio::config 'auth.oidc.token_endpoint_url')
+TOKEN_URL=$(bashio::config 'auth.oidc.tokenEndpointURL')
 
 # 获取代理配置
+PROXY_NAME=$(bashio::config 'proxies[0].name')
 PROXY_TYPE=$(bashio::config 'proxies[0].type')
-LOCAL_PORT=$(bashio::config 'proxies[0].local_port')
+LOCAL_PORT=$(bashio::config 'proxies[0].customDomains')
 CUSTOM_DOMAIN=$(bashio::config 'proxies[0].custom_domains[0]')
 
 bashio::log.info "Creating FRP Client configuration..."
@@ -38,7 +48,7 @@ cat > "${CONFIG_PATH}" << EOL
 serverAddr = "${SERVER_ADDR}"
 serverPort = ${SERVER_PORT}
 
-auth.method = "oidc"
+auth.method = "${AUTH_METHOD}"
 auth.oidc.clientID = "${CLIENT_ID}"
 auth.oidc.clientSecret = "${CLIENT_SECRET}"
 auth.oidc.audience = "${AUDIENCE}"
@@ -58,6 +68,9 @@ bashio::log.info "Server: ${SERVER_ADDR}:${SERVER_PORT}"
 bashio::log.info "Proxy Name: ${PROXY_NAME}"
 bashio::log.info "Local Port: ${LOCAL_PORT}"
 bashio::log.info "Custom Domain: ${CUSTOM_DOMAIN}"
+bashio::log.info "Audience: ${AUDIENCE}"
+
+cat $CONFIG_PATH
 
 # 检查配置文件是否存在
 if [ ! -f "${CONFIG_PATH}" ]; then
@@ -67,13 +80,11 @@ fi
 
 # 启动 frpc
 bashio::log.info "Starting FRP Client with configuration at ${CONFIG_PATH}"
+cd /usr/src
+./frpc -c $CONFIG_PATH > "${LOG_FILE}" 2>&1 & WAIT_PIDS+=($!)
 
-# 监控循环
-while true; do
-    if "${APP_PATH}/frpc" -c "${CONFIG_PATH}"; then
-        bashio::log.warning "FRP Client exited, restarting in 10 seconds..."
-    else
-        bashio::log.error "FRP Client failed, restarting in 10 seconds..."
-    fi
-    sleep 10
-done
+tail -f ${LOG_FILE} &
+
+trap "stop_frpc_oidc" SIGTERM SIGHUP
+
+wait "${WAIT_PIDS[@]}"
