@@ -8,7 +8,7 @@ build_from:
 labels:
   org.opencontainers.image.title: "Frpc"
   org.opencontainers.image.description: "HomeAI"
-  org.opencontainers.image.source: "https://github.com/mophite/frpc/frpc.jpg"
+  org.opencontainers.image.source: "https://github.com/mophite/frpc/blob/main/frpc.png"
   org.opencontainers.image.licenses: "Apache License 2.0"
 args:
   FRP_VERSION: "0.61.0"
