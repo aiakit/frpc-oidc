@@ -1,0 +1,48 @@
+{
+  "name": "FrpcOidc",
+  "version": "1.0.0",
+  "slug": "frpc",
+  "description": "FRP Client add-on for Home Assistant",
+  "url": "https://github.com/yourusername/hassio-frpc",
+  "arch": [
+    "armhf",
+    "armv7",
+    "aarch64",
+    "amd64",
+    "i386"
+  ],
+  "init": false,
+  "map": [
+    {
+      "share": "rw"
+    }
+  ],
+  "options": {
+    "serverAddr": "47.106.129.170",
+    "serverPort": 7000,
+    "method": "oidc",
+    "clientID": "client_id",
+    "clientSecret": "client_secret",
+    "audience": "https://xxx.homingai.com",
+    "scope": "rw",
+    "tokenEndpointURL": "https://api.homingai.com/oauth/oidc/token",
+    "name": "web1",
+    "type": "http",
+    "localPort": 8123,
+    "customDomains": "xxx.homingai.com"
+  },
+  "schema": {
+    "serverAddr": "str",
+    "serverPort": 7000,
+    "method": "str",
+    "clientID": "str",
+    "clientSecret": "str",
+    "audience": "str",
+    "scope": "str",
+    "tokenEndpointURL": "str",
+    "name": "str",
+    "type": "str",
+    "localPort": 8123,
+    "customDomains": "str"
+  }
+}
