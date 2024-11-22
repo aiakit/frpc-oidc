@@ -1,0 +1,45 @@
+---
+name: FrpcOidc
+version: "1.0.0"
+slug: frpc_oidc
+description: FRP_Client_add_on_for_Home_Assistant
+url: https://github.com/yourusername/hassio-frpc
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+host_network: true
+init: false
+map:
+  - share: rw
+options:
+  server_addr: 47.106.129.170
+  server_port: 7000
+  method: oidc
+  client_id: client_id
+  client_secret: client_secret
+  audience: https://xxx.homingai.com
+  scope: rw
+  token_endpoint_url: https://api.homingai.com/oauth/oidc/token
+  name: web
+  type: http
+  local_ip: 127.0.0.1
+  local_port: 8123
+  custom_domains: xxx.homingai.com
+schema:
+  server_addr: str
+  server_port: int
+  method: str
+  client_id: str
+  client_secret: str
+  audience: str
+  scope: str
+  token_endpoint_url: str
+  name: str
+  type: str
+  local_ip: str
+  local_port: int
+  custom_domains: str

@@ -34,20 +34,20 @@ fi
 chmod +x "${APP_PATH}/frpc"
 
 # 从 Home Assistant 配置中获取值
-SERVER_ADDR=$(bashio::config 'serverAddr')
-SERVER_PORT=$(bashio::config 'serverPort')
+SERVER_ADDR=$(bashio::config 'server_adr')
+SERVER_PORT=$(bashio::config 'server_port')
 AUTH_METHOD=$(bashio::config 'method')
-CLIENT_ID=$(bashio::config 'clientID')
-CLIENT_SECRET=$(bashio::config 'clientSecret')
+CLIENT_ID=$(bashio::config 'client_id')
+CLIENT_SECRET=$(bashio::config 'client_secret')
 AUDIENCE=$(bashio::config 'audience')
 SCOPE=$(bashio::config 'scope')
-TOKEN_URL=$(bashio::config 'tokenEndpointURL')
+TOKEN_URL=$(bashio::config 'token_endpoint_url')
 
 # 获取代理配置
 PROXY_NAME=$(bashio::config 'name')
 PROXY_TYPE=$(bashio::config 'type')
-LOCAL_IP=$(bashio::config 'localIP')
-LOCAL_PORT=$(bashio::config 'localPort')
+LOCAL_IP=$(bashio::config 'local_ip')
+LOCAL_PORT=$(bashio::config 'local_port')
 CUSTOM_DOMAIN=$(bashio::config 'customDomains')
 
 bashio::log.info "Creating FRP Client configuration..."
