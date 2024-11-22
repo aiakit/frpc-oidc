@@ -26,14 +26,15 @@
     "audience": "https://xxx.homingai.com",
     "scope": "rw",
     "tokenEndpointURL": "https://api.homingai.com/oauth/oidc/token",
-    "name": "web1",
+    "name": "web",
     "type": "http",
+    "localIP": "homeassistant.local",
     "localPort": 8123,
     "customDomains": "xxx.homingai.com"
   },
   "schema": {
     "serverAddr": "str",
-    "serverPort": 7000,
+    "serverPort": "int",
     "method": "str",
     "clientID": "str",
     "clientSecret": "str",
@@ -42,7 +43,8 @@
     "tokenEndpointURL": "str",
     "name": "str",
     "type": "str",
-    "localPort": 8123,
+    "localIP": "str",
+    "localPort": "int",
     "customDomains": "str"
   }
 }

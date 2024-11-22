@@ -4,7 +4,7 @@ set -e
 
 # 定义配置文件路径
 CONFIG_PATH=/data/frpc.toml
-LOG_FILE="/share/frpc.log"
+LOG_FILE="/data/frpc.log"
 APP_PATH="/usr/src"
 WAIT_PIDS=()
 
@@ -12,6 +12,11 @@ function stop_frpc() {
     bashio::log.info "Stop frpc oidc "
     kill -15 "${WAIT_PIDS[@]}"
 }
+
+if [ -f "${CONFIG_PATH}" ]; then
+    bashio::log.info "Removing old configuration file..."
+    rm -f "${CONFIG_PATH}"
+fi
 
 # 显示欢迎信息
 ALL_CONFIG=$(bashio::config --all)
@@ -41,6 +46,7 @@ TOKEN_URL=$(bashio::config 'tokenEndpointURL')
 # 获取代理配置
 PROXY_NAME=$(bashio::config 'name')
 PROXY_TYPE=$(bashio::config 'type')
+LOCAL_IP=$(bashio::config 'localIP')
 LOCAL_PORT=$(bashio::config 'localPort')
 CUSTOM_DOMAIN=$(bashio::config 'customDomains')
 
@@ -53,6 +59,7 @@ bashio::log.info "ClientSecret: ${CLIENT_SECRET}"
 bashio::log.info "Audience: ${AUDIENCE}"
 bashio::log.info "Proxy Name: ${PROXY_NAME}"
 bashio::log.info "Proxy Type: ${PROXY_TYPE}"
+bashio::log.info "Local IP: ${LOCAL_IP}"
 bashio::log.info "Local Port: ${LOCAL_PORT}"
 bashio::log.info "Custom Domain: ${CUSTOM_DOMAIN}"
 
@@ -71,6 +78,7 @@ auth.oidc.tokenEndpointURL = "${TOKEN_URL}"
 [[proxies]]
 name = "${PROXY_NAME}"
 type = "${PROXY_TYPE}"
+localIP = "${LOCAL_IP}"
 localPort = ${LOCAL_PORT}
 customDomains = ["${CUSTOM_DOMAIN}"]
 EOL
@@ -86,9 +94,7 @@ fi
 # 启动 frpc
 bashio::log.info "Starting FRP Client with configuration at ${CONFIG_PATH}"
 cd /usr/src
-./frpc -c $CONFIG_PATH > "${LOG_FILE}" 2>&1 & WAIT_PIDS+=($!)
-
-tail -f ${LOG_FILE} &
+./frpc -c $CONFIG_PATH > "${LOG_FILE}" 2>&1 & WAIT_PIDS+=($!) & tail -f ${LOG_FILE}
 
 trap "stop_frpc_oidc" SIGTERM SIGHUP
 

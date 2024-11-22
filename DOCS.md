@@ -5,9 +5,8 @@
 2. 基本使用
 - 根据frp提供的配置文件说明，配置即可使用。参考地址：https://gofrp.org/zh-cn/docs/features/common/authentication/
 
-3. 配置文件说明
-
->
+3. frpc配置文件说明  
+---
     serverAddr = "远程服务器ip"
     serverPort = 7000
 
