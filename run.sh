@@ -48,7 +48,7 @@ PROXY_NAME=$(bashio::config 'name')
 PROXY_TYPE=$(bashio::config 'type')
 LOCAL_IP=$(bashio::config 'local_ip')
 LOCAL_PORT=$(bashio::config 'local_port')
-CUSTOM_DOMAIN=$(bashio::config 'customDomains')
+CUSTOM_DOMAIN=$(bashio::config 'custom_domains')
 
 bashio::log.info "Creating FRP Client configuration..."
 bashio::log.info "Configuration created with following settings:"
