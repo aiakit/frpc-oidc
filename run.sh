@@ -34,7 +34,7 @@ fi
 chmod +x "${APP_PATH}/frpc"
 
 # 从 Home Assistant 配置中获取值
-SERVER_ADDR=$(bashio::config 'server_adr')
+SERVER_ADDR=$(bashio::config 'server_addr')
 SERVER_PORT=$(bashio::config 'server_port')
 AUTH_METHOD=$(bashio::config 'method')
 CLIENT_ID=$(bashio::config 'client_id')
