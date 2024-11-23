@@ -1,9 +1,8 @@
----
 name: FrpcOidc
-version: "1.0.0"
+version: 1.0.0
 slug: frpc_oidc
-description: FRP_Client_add_on_for_Home_Assistant
-url: https://github.com/yourusername/hassio-frpc
+description: FRP Client add-on for Home Assistant with OIDC support
+url: https://github.com/mophite/frpc-oidc
 arch:
   - armhf
   - armv7
@@ -14,7 +13,8 @@ startup: application
 host_network: true
 init: false
 map:
-  - share: rw
+  - addons:rw
+  - share:rw
 options:
   server_addr: 47.106.129.170
   server_port: 7000

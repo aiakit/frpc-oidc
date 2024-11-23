@@ -1,4 +1,3 @@
----
 name: FrpcOidc
-url: https://github.com/mophite/frpc
+url: https://github.com/mophite/frpc-oidc
 maintainer: 1743299@qq.com
