@@ -2,7 +2,7 @@ name: FrpcOidc
 version: 1.0.0
 slug: frpc_oidc
 description: FRP Client add-on for Home Assistant with OIDC support
-url: https://github.com/mophite/frpc-oidc
+url: https://github.com/aiakit/frpc-oidc
 arch:
   - armhf
   - armv7
